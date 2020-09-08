@@ -3,9 +3,6 @@ package com.pernal.model;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-/**
- * @author pla067jakpern, wrz 06, 2020 CRIF IT Solutions Poland
- **/
 public class EmployeeReq implements Serializable {
 
     @NotNull

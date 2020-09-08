@@ -1,6 +1,5 @@
 package com.pernal.persistence.repository;
 
-import com.pernal.model.EmployeeSearchReq;
 import com.pernal.persistence.entity.EmployeeEntity;
 import org.hibernate.HibernateException;
 

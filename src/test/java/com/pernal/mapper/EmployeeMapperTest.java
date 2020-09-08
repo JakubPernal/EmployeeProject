@@ -26,7 +26,7 @@ public class EmployeeMapperTest {
     }
 
     @Test
-    public void shouldNotMap(){
+    public void shouldNotMap() {
         EmployeeEntity employeeEntity = EmployeeMapper.mapToEntity(null);
         Employee employee = EmployeeMapper.mapToEmployee(null);
 

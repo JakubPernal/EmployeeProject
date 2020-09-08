@@ -1,7 +1,6 @@
 package com.pernal.persistence.connection;
 
 import com.pernal.persistence.entity.EmployeeEntity;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;

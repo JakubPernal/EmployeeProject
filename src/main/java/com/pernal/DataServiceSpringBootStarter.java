@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DataServiceSpringBootStarter {
 
     public static void main(String[] args) {
-        SpringApplication.run(DataServiceSpringBootStarter.class,args);
+        SpringApplication.run(DataServiceSpringBootStarter.class, args);
     }
 }

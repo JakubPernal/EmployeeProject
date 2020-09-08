@@ -1,7 +1,7 @@
 package com.pernal.mapper;
 
-import com.pernal.model.EmployeeReq;
 import com.pernal.model.Employee;
+import com.pernal.model.EmployeeReq;
 import com.pernal.persistence.entity.EmployeeEntity;
 
 public class EmployeeMapper {

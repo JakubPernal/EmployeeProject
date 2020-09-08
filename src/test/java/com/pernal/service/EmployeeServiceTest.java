@@ -23,9 +23,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-/**
- * @author pla067jakpern, wrz 07, 2020 CRIF IT Solutions Poland
- **/
 public class EmployeeServiceTest {
 
     @InjectMocks
@@ -120,7 +117,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void shouldSearchForEmptyFields(){
+    public void shouldSearchForEmptyFields() {
         given(employeeRepository.search(any())).willReturn(new ArrayList<>());
 
         ResponseEntity<EmployeeServiceResponse<List<Employee>>> responseResponseEntity = employeeService.search(new EmployeeSearchReq());
@@ -131,7 +128,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void shouldSearchForFilledFields(){
+    public void shouldSearchForFilledFields() {
         EmployeeSearchReq employeeSearchReq = new EmployeeSearchReq();
         employeeSearchReq.setGrade(10);
         employeeSearchReq.setName("name");
@@ -148,7 +145,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void shouldThrowWhileSearch(){
+    public void shouldThrowWhileSearch() {
         given(employeeRepository.search(any())).willThrow(new HibernateException("msg"));
 
         ResponseEntity<EmployeeServiceResponse<List<Employee>>> responseResponseEntity = employeeService.search(new EmployeeSearchReq());

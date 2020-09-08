@@ -2,9 +2,6 @@ package com.pernal.model;
 
 import java.io.Serializable;
 
-/**
- * @author pla067jakpern, wrz 08, 2020 CRIF IT Solutions Poland
- **/
 public class EmployeeSearchReq implements Serializable {
     private String name;
     private String surname;

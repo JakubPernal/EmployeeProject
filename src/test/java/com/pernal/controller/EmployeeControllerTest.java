@@ -9,17 +9,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-/**
- * @author pla067jakpern, wrz 07, 2020 CRIF IT Solutions Poland
- **/
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -57,7 +50,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldDelete() throws Exception{
+    public void shouldDelete() throws Exception {
         mockMvc.perform(delete("/employee/delete/200").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

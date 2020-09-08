@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,16 +107,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     private Map<String, Object> createParametersMap(EmployeeSearchReq employeeSearchReq) {
         Map<String, Object> parametersMap = new HashMap<>();
 
-        if (employeeSearchReq.getName() != null){
+        if (employeeSearchReq.getName() != null) {
             parametersMap.put("name", employeeSearchReq.getName());
         }
-        if(employeeSearchReq.getSurname() != null){
+        if (employeeSearchReq.getSurname() != null) {
             parametersMap.put("surname", employeeSearchReq.getSurname());
         }
-        if(employeeSearchReq.getGrade() != null){
+        if (employeeSearchReq.getGrade() != null) {
             parametersMap.put("grade", employeeSearchReq.getGrade());
         }
-        if(employeeSearchReq.getSalary() != null){
+        if (employeeSearchReq.getSalary() != null) {
             parametersMap.put("salary", employeeSearchReq.getSalary());
         }
 
