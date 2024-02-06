@@ -1,126 +1,95 @@
 package com.pernal.persistence.repository;
 
-import com.pernal.persistence.connection.HibernateUtil;
 import com.pernal.persistence.entity.EmployeeEntity;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public class EmployeeRepository implements IEmployeeRepository {
 
     private Logger logger = LoggerFactory.getLogger(EmployeeRepository.class);
 
+    private EntityManager entityManager;
+
+    public EmployeeRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     @Override
     public int deleteById(Long id) throws HibernateException {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            logger.info("Delete entity started...");
+        logger.info("Delete entity started...");
 
-            transaction = session.beginTransaction();
-            Optional<EmployeeEntity> employeeEntityOpt = findById(id);
-            employeeEntityOpt.ifPresent(session::delete);
-            transaction.commit();
+        Optional<EmployeeEntity> byId = findById(id);
+        byId.ifPresent(entity -> entityManager.remove(entity));
 
-            logger.info("Delete entity finished");
+        logger.info("Delete entity finished");
 
-            return 1;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateException("Error while deleting entity with id: " + id);
-        }
+        return 1;
     }
 
     @Override
     public <S extends EmployeeEntity> S save(S s) throws HibernateException {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             logger.info("Save entity started...");
 
-            transaction = session.beginTransaction();
-            session.save(s);
-            transaction.commit();
+            entityManager.persist(s);
 
             logger.info("Save entity finished");
 
             return s;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateException("Error while saving entity");
-        }
     }
 
     @Override
     public Optional<EmployeeEntity> findById(Long id) throws HibernateException {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             logger.info("Get entity started...");
 
-            transaction = session.beginTransaction();
-            EmployeeEntity employeeEntity = session.get(EmployeeEntity.class, id.intValue());
-            transaction.commit();
+            EmployeeEntity employeeEntity = entityManager.find(EmployeeEntity.class, id.intValue());
 
             logger.info("Get entity finished");
 
             return Optional.ofNullable(employeeEntity);
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateException("Error while selecting entity with id: " + id);
-        }
     }
 
     @Override
     public EmployeeEntity update(EmployeeEntity employeeEntity) throws HibernateException {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             logger.info("Update entity started...");
 
-            transaction = session.beginTransaction();
             Optional<EmployeeEntity> employeeEntityOpt = findById(employeeEntity.getId().longValue());
             if (employeeEntityOpt.isPresent()) {
-                session.update(employeeEntity);
+                entityManager.merge(employeeEntity);
             }
-            transaction.commit();
 
             logger.info("Update entity finished");
 
             return employeeEntity;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateException("Error while updating entity with id: " + employeeEntity.getId());
-        }
     }
 
     @Override
     public List<EmployeeEntity> search(Map<String, Object> parametersMap) throws HibernateException {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            logger.info("Searching entity started...");
+//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//            logger.info("Searching entity started...");
+//
+//            Query<EmployeeEntity> searchQuery = session.createQuery(createSearchQuery(parametersMap), EmployeeEntity.class);
+//            parametersMap.forEach(searchQuery::setParameter);
+//
+//            logger.info("Searching entity finished");
+//
+//            return searchQuery.getResultList();
+//        } catch (Exception e) {
+//            throw new HibernateException("Error while searching entity");
+//        }
 
-            Query<EmployeeEntity> searchQuery = session.createQuery(createSearchQuery(parametersMap), EmployeeEntity.class);
-            parametersMap.forEach(searchQuery::setParameter);
-
-            logger.info("Searching entity finished");
-
-            return searchQuery.getResultList();
-        } catch (Exception e) {
-            throw new HibernateException("Error while searching entity");
-        }
+        return Collections.emptyList();
     }
 
     private String createSearchQuery(Map<String, Object> parametersMap) {
