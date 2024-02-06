@@ -4,11 +4,11 @@ import com.pernal.persistence.entity.EmployeeEntity;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -40,56 +40,50 @@ public class EmployeeRepository implements IEmployeeRepository {
 
     @Override
     public <S extends EmployeeEntity> S save(S s) throws HibernateException {
-            logger.info("Save entity started...");
+        logger.info("Save entity started...");
 
-            entityManager.persist(s);
+        entityManager.persist(s);
 
-            logger.info("Save entity finished");
+        logger.info("Save entity finished");
 
-            return s;
+        return s;
     }
 
     @Override
     public Optional<EmployeeEntity> findById(Long id) throws HibernateException {
-            logger.info("Get entity started...");
+        logger.info("Get entity started...");
 
-            EmployeeEntity employeeEntity = entityManager.find(EmployeeEntity.class, id.intValue());
+        EmployeeEntity employeeEntity = entityManager.find(EmployeeEntity.class, id.intValue());
 
-            logger.info("Get entity finished");
+        logger.info("Get entity finished");
 
-            return Optional.ofNullable(employeeEntity);
+        return Optional.ofNullable(employeeEntity);
     }
 
     @Override
     public EmployeeEntity update(EmployeeEntity employeeEntity) throws HibernateException {
-            logger.info("Update entity started...");
+        logger.info("Update entity started...");
 
-            Optional<EmployeeEntity> employeeEntityOpt = findById(employeeEntity.getId().longValue());
-            if (employeeEntityOpt.isPresent()) {
-                entityManager.merge(employeeEntity);
-            }
+        Optional<EmployeeEntity> employeeEntityOpt = findById(employeeEntity.getId().longValue());
+        if (employeeEntityOpt.isPresent()) {
+            entityManager.merge(employeeEntity);
+        }
 
-            logger.info("Update entity finished");
+        logger.info("Update entity finished");
 
-            return employeeEntity;
+        return employeeEntity;
     }
 
     @Override
     public List<EmployeeEntity> search(Map<String, Object> parametersMap) throws HibernateException {
-//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            logger.info("Searching entity started...");
-//
-//            Query<EmployeeEntity> searchQuery = session.createQuery(createSearchQuery(parametersMap), EmployeeEntity.class);
-//            parametersMap.forEach(searchQuery::setParameter);
-//
-//            logger.info("Searching entity finished");
-//
-//            return searchQuery.getResultList();
-//        } catch (Exception e) {
-//            throw new HibernateException("Error while searching entity");
-//        }
+        logger.info("Searching entity started...");
 
-        return Collections.emptyList();
+        TypedQuery<EmployeeEntity> searchQuery = entityManager.createQuery(createSearchQuery(parametersMap), EmployeeEntity.class);
+        parametersMap.forEach(searchQuery::setParameter);
+
+        logger.info("Searching entity finished");
+
+        return searchQuery.getResultList();
     }
 
     private String createSearchQuery(Map<String, Object> parametersMap) {

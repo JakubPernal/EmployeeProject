@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 return ResponseEntity.ok(EmployeeServiceResponse.createResponse(employee, HttpStatus.OK, "OK"));
             } else {
                 logger.warn("Entity with given id not found in database");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(EmployeeServiceResponse.createResponse(null, HttpStatus.NOT_FOUND, "Entity with given id not found in database"));
+                return ResponseEntity.ok(EmployeeServiceResponse.createResponse(null, HttpStatus.NOT_FOUND, "Entity with given id not found in database"));
             }
         } catch (HibernateException e) {
             logger.error(e.getMessage());
